@@ -1,0 +1,38 @@
+{
+  "name": "kotchi-core",
+  "version": "1.0.0",
+  "description": "kotchi ui framework core code",
+  "main": "lib/index.js",
+  "files": [
+    "/lib"
+  ],
+  "scripts": {
+    "build": "babel src -d lib",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kotchi-ui/kotchi-core.git"
+  },
+  "author": "Ahmad Rida Igbariya <ahmad.rida.igbariya@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kotchi-ui/kotchi-core/issues"
+  },
+  "homepage": "https://github.com/kotchi-ui/kotchi-core#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.6",
+    "@babel/preset-env": "^7.9.6",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-prettier": "^3.1.3",
+    "fs-extra": "^8.1.0",
+    "prettier": "2.0.5"
+  },
+  "dependencies": {
+    "lodash": "^4.17.15"
+  }
+}
