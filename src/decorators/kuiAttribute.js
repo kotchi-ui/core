@@ -1,46 +1,53 @@
 import _kebabCase from "lodash/kebabCase";
 import _isUndefined from "lodash/isUndefined";
-import { defaultPropertySetter, defaultPropertyGetter } from "../utils/customElementUtils";
-import { addObservedAttribute, setAttributeDefault, validateAttributeValue } from "../utils/customElementData";
+import {
+  defaultPropertySetter,
+  defaultPropertyGetter,
+} from "../utils/customElementUtils";
+import {
+  addObservedAttribute,
+  setAttributeDefault,
+  validateAttributeValue,
+} from "../utils/customElementData";
 
 export default function kuiAttribute(targetOrData, name, descriptor) {
-	if (_isUndefined(descriptor) && _isUndefined(name)) {
-		return descriptorFn.bind(this, targetOrData);
-	} else {
-		return descriptorFn({}, targetOrData, name, descriptor);
-	}
+  if (_isUndefined(descriptor) && _isUndefined(name)) {
+    return descriptorFn.bind(this, targetOrData);
+  } else {
+    return descriptorFn({}, targetOrData, name, descriptor);
+  }
 }
 
 function descriptorFn(
-	{ setter = defaultPropertySetter, getter = defaultPropertyGetter } = {},
-	target,
-	propertyName,
-	descriptor
+  { setter = defaultPropertySetter, getter = defaultPropertyGetter } = {},
+  target,
+  propertyName,
+  descriptor
 ) {
-	const tagName = target.getTagName();
-	const attribute = _kebabCase(propertyName);
-	const defaultValue = descriptor.initializer ? descriptor.initializer() : null;
-	addObservedAttribute({ tagName, attribute });
-	setAttributeDefault({ tagName, attribute, defaultValue });
+  const tagName = target.getTagName();
+  const attribute = _kebabCase(propertyName);
+  const defaultValue = descriptor.initializer ? descriptor.initializer() : null;
+  addObservedAttribute({ tagName, attribute });
+  setAttributeDefault({ tagName, attribute, defaultValue });
 
-	return {
-		enumerable: true,
-		configurable: true,
-		set(value) {
-			// logger.info(`Setting ${value} to ${propertyName}`);
-			if (validateAttributeValue({ tagName, attribute, value })) {
-				setter.call(this, { component: this, attribute, value });
-			}
-		},
-		get() {
-			// logger.info(`Getting value of ${propertyName}`);
-			return getter.call(this, {
-				component: this,
-				attribute,
-				defaultValue,
-			});
-		},
-	};
+  return {
+    enumerable: true,
+    configurable: true,
+    set(value) {
+      // logger.info(`Setting ${value} to ${propertyName}`);
+      if (validateAttributeValue({ tagName, attribute, value })) {
+        setter.call(this, { component: this, attribute, value });
+      }
+    },
+    get() {
+      // logger.info(`Getting value of ${propertyName}`);
+      return getter.call(this, {
+        component: this,
+        attribute,
+        defaultValue,
+      });
+    },
+  };
 }
 /**
  *
